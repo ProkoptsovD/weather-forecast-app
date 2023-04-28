@@ -1,0 +1,20 @@
+import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Container } from '@mui/material';
+
+import Header from '@components/header';
+
+export function SharedLayout() {
+  return (
+    <>
+      <Header />
+      <main>
+        <Container maxWidth="lg">
+          <Suspense fallback={<div>Loader...</div>}>
+            <Outlet />
+          </Suspense>
+        </Container>
+      </main>
+    </>
+  );
+}
