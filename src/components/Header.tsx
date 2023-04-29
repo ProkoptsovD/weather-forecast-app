@@ -1,20 +1,19 @@
 /** LIBS */
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useDispatch, useSelector } from 'react-redux';
 
 /** COMPONENTS */
-import { Search } from '@components/search';
-import { MyLocation } from '@components/myLocation';
+import { Search } from '@components/Search';
+import { MyLocation } from '@components/MyLocation';
 
 /** RTK Slices */
-import { myGeolocationSlice } from '@store/myGeolocationSlice';
+import { Coordinates, myGeolocationSlice } from '@store/myGeolocationSlice';
 import { searchCitySlice } from '@store/searchCitySlice';
-import { pinnedCitiesSlice } from '@store/pinnedCitiesSlice';
+import { PinnedCity, pinnedCitiesSlice } from '@store/pinnedCitiesSlice';
 
 /** RTK Selectors */
 import * as myGeolocationSelectors from '@store/myGeolocationSlice/myGeolocationSelectors';
@@ -29,19 +28,29 @@ function Header() {
   const city = useSelector(searchCitySelectors.getCity);
   const cities = weatherService.useFindCityByNameQuery(city, { skip: !city });
 
+  const myLocation = useSelector(myGeolocationSelectors.getCurrentLocation);
+  const myCity = weatherService.useGetWeatherByCityCoordsQuery(myLocation as Coordinates, {
+    skip: !myLocation.latitude || !myLocation.longitude
+  });
+
+  React.useEffect(() => {
+    if (myCity.isSuccess && myCity.data) {
+      const pinnedCity: PinnedCity = {
+        id: myCity.data.id,
+        coord: {
+          latitude: myCity.data.coord.lat,
+          longitude: myCity.data.coord.lon
+        },
+        myGeolocation: true
+      };
+      dispatch(pinnedCitiesSlice.actions.addCityToPinned({ pinnedCity }));
+    }
+  }, [myCity.isSuccess, myCity.data, dispatch]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
             variant="h6"
             noWrap

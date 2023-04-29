@@ -6,13 +6,18 @@ import type { PinnedCity } from '@store/pinnedCitiesSlice';
 export const weatherService = createApi({
   reducerPath: 'weatherService',
   baseQuery: fetchBaseQuery({ baseUrl: WEATHER_API_KEYS.URL }),
+  refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
-    getWeatherInCityByCoords: builder.query({
+    getWeatherByCityCoords: builder.query({
       query: ({ latitude, longitude }: Coordinates) =>
         `/weather?lat=${latitude}&lon=${longitude}&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
     }),
     findCityByName: builder.query({
       query: (city: string) => `/find?q=${city}&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
+    }),
+    findCityByCoordinates: builder.query({
+      query: ({ latitude, longitude }: Coordinates) =>
+        `/find?lat=${latitude}&lon=${longitude}&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
     }),
     getWeatherInMultipleCities: builder.query({
       queryFn: async (cities: PinnedCity[], _, __, baseQuery) => {

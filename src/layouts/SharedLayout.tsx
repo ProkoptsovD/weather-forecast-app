@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import Container from '@mui/material/Container';
-import Header from '@components/header';
+import Header from '@components/Header';
 
 export function SharedLayout() {
   return (
