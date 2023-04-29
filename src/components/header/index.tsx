@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Search } from '@components/search';
+import { MyLocation } from '@components/myLocation';
 
 function Header() {
   return (
@@ -29,6 +30,7 @@ function Header() {
             Best weather app ever
           </Typography>
           <Search />
+          <MyLocation />
         </Toolbar>
       </AppBar>
     </Box>
