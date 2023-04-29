@@ -1,22 +1,31 @@
 import { WEATHER_API_KEYS } from '@constants/appKeys';
-import { HttpClient } from '@services/httpClient';
-import { BaseService } from '@services/baseService';
-import type { ServiceConfig, HttpClientClass, TryCatchError } from '@services/service';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-class WeatherService extends BaseService {
-  constructor(private httpClient: HttpClientClass, config: ServiceConfig) {
-    super(config);
-  }
+export const weatherService = createApi({
+  reducerPath: 'weatherService',
+  baseQuery: fetchBaseQuery({ baseUrl: WEATHER_API_KEYS.FORECAST_URL }),
+  endpoints: (builder) => ({
+    getWeatherInSingleCity: builder.query({
+      query: (city: string) => `?q=${city}&APPID=${WEATHER_API_KEYS.APP_ID}`
+    }),
+    getWeatherInMultipleCities: builder.query({
+      queryFn: async (cities: string[], _, __, baseQuery) => {
+        const results = await Promise.all(
+          cities.map((city) => baseQuery(`?q=${city}&APPID=${WEATHER_API_KEYS.APP_ID}`))
+        );
 
-  public async getWeatherByCityName(city: string) {
-    const urlWithParams = this.mapQueryParamsToURL(`q=${city}`);
-    const urlWithParamsAndApiKey = this.appendApiKey(urlWithParams);
+        const merged = results.map((result) => result.data);
+        const errors = results
+          .filter((result) => Boolean(result?.error))
+          .map((result) => result.error);
 
-    return await this.httpClient.get<unknown, unknown, TryCatchError>(urlWithParamsAndApiKey);
-  }
-}
+        if (errors.length > 0) return Promise.reject({ error: errors });
 
-export const weatherService = new WeatherService(new HttpClient(), {
-  baseUrl: WEATHER_API_KEYS.FORECAST_URL,
-  apiKey: WEATHER_API_KEYS.APP_ID
+        return Promise.resolve({ data: merged });
+      }
+    })
+  })
 });
+
+export const { useGetWeatherInSingleCityQuery, useGetWeatherInMultipleCitiesQuery } =
+  weatherService;
