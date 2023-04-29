@@ -1,7 +1,7 @@
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import type { Geolocation } from '@store/myGeolocationSlice/myGeolocationSlice';
+import type { Coordinates } from '@store/myGeolocationSlice';
 
 export function MyLocation({
   onClick,
@@ -31,8 +31,6 @@ export function MyLocation({
     if (onClick) onClick();
   }
 
-  console.log('isGettingLocation -->', isGettingLocation);
-
   return (
     <Button
       type="button"
@@ -60,7 +58,7 @@ export function MyLocation({
 
 export type MyLocationProps = {
   onClick?: () => void;
-  onGeolocationSuccess: ({ latitude, longitude }: Geolocation) => void;
+  onGeolocationSuccess: ({ latitude, longitude }: Coordinates) => void;
   onGeolocationFailure: ({ error }: { error: string }) => void;
   onGeolocationStart: () => void;
   onGeolocationEnd: () => void;

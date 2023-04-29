@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export type Geolocation = {
+export type Coordinates = {
   latitude: number;
   longitude: number;
 };
 
 export interface MyGeoLocationState {
-  latitude: Geolocation['latitude'] | null;
-  longitude: Geolocation['longitude'] | null;
+  latitude: Coordinates['latitude'] | null;
+  longitude: Coordinates['longitude'] | null;
   error: string | null;
   isGettingLocation: boolean;
 }

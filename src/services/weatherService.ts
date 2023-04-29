@@ -1,17 +1,27 @@
 import { WEATHER_API_KEYS } from '@constants/appKeys';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { Coordinates } from '@store/myGeolocationSlice';
+import type { PinnedCity } from '@store/pinnedCitiesSlice';
 
 export const weatherService = createApi({
   reducerPath: 'weatherService',
-  baseQuery: fetchBaseQuery({ baseUrl: WEATHER_API_KEYS.FORECAST_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: WEATHER_API_KEYS.URL }),
   endpoints: (builder) => ({
-    getWeatherInSingleCity: builder.query({
-      query: (city: string) => `?q=${city}&APPID=${WEATHER_API_KEYS.APP_ID}`
+    getWeatherInCityByCoords: builder.query({
+      query: ({ latitude, longitude }: Coordinates) =>
+        `/weather?lat=${latitude}&lon=${longitude}&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
+    }),
+    findCityByName: builder.query({
+      query: (city: string) => `/find?q=${city}&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
     }),
     getWeatherInMultipleCities: builder.query({
-      queryFn: async (cities: string[], _, __, baseQuery) => {
+      queryFn: async (cities: PinnedCity[], _, __, baseQuery) => {
         const results = await Promise.all(
-          cities.map((city) => baseQuery(`?q=${city}&APPID=${WEATHER_API_KEYS.APP_ID}`))
+          cities.map(({ coord }) =>
+            baseQuery(
+              `weather?lat=${coord.latitude}&lon=${coord.longitude}&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
+            )
+          )
         );
 
         const merged = results.map((result) => result.data);
@@ -26,6 +36,3 @@ export const weatherService = createApi({
     })
   })
 });
-
-export const { useGetWeatherInSingleCityQuery, useGetWeatherInMultipleCitiesQuery } =
-  weatherService;

@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import myGeolocationReducer from '@store/myGeolocationSlice/myGeolocationSlice';
+import myGeolocationReducer from '@store/myGeolocationSlice';
+import searchCityReducer from '@store/searchCitySlice';
+import pinnedCitiesReducer from '@store/pinnedCitiesSlice';
 import { weatherService } from '@services/weatherService';
 
 export const store = configureStore({
   reducer: {
     [weatherService.reducerPath]: weatherService.reducer,
-    myGeolocation: myGeolocationReducer
+    myGeolocation: myGeolocationReducer,
+    city: searchCityReducer,
+    pinnedCities: pinnedCitiesReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(weatherService.middleware)
 });
