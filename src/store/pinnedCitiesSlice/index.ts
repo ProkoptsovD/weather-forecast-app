@@ -6,6 +6,7 @@ import type { Coordinates } from '@store/myGeolocationSlice';
 export type PinnedCity = {
   id: number;
   coord: Coordinates;
+  myGeolocation: boolean;
 };
 
 export interface PinnedCitiesState {
@@ -21,6 +22,10 @@ export const pinnedCitiesSlice = createSlice({
   initialState,
   reducers: {
     addCityToPinned: (state, action: PayloadAction<{ pinnedCity: PinnedCity }>) => {
+      const hasCity = state.list.some(({ id }) => id === action.payload.pinnedCity.id);
+
+      if (hasCity) return state;
+
       state.list.unshift(action.payload.pinnedCity);
     },
     removeCityFromPinned: (state, action: PayloadAction<{ cityId: number }>) => {

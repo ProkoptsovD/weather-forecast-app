@@ -1,36 +1,43 @@
-/** libs */
+/** LIBS */
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 /** MUI Icons */
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
-
-import * as Styled from './Search.styled';
+/** SELECTORS */
+import * as myGeolocationSelectors from '@store/myGeolocationSlice/myGeolocationSelectors';
+/** CONSTANTS */
 import { KEYBOARD_KEYS, WEATHER_API_KEYS } from '@constants/appKeys';
-import type { PinnedCity } from '@store/pinnedCitiesSlice';
+/** SERVICES */
 import { City } from '@services/service';
+/** TYPES */
+import type { PinnedCity } from '@store/pinnedCitiesSlice';
+import * as Styled from './Search.styled';
 
 export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }: SearchProps) {
   const [city, setCity] = React.useState<string>('');
   const [openDropdown, setOpenDropdown] = React.useState<boolean>(false);
+  const myGeolocation = useSelector(myGeolocationSelectors.getCurrentLocation);
 
   React.useEffect(() => {
     if (cityList?.length) setOpenDropdown(true);
   }, [cityList]);
 
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setCity(event.currentTarget.value);
+
+    if (city === '') setOpenDropdown(false);
+  }
+
   function onEnterKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key !== KEYBOARD_KEYS.ENTER) return;
     if (city.trim() === '') return;
-    if (city.trim() && cityList?.length) {
-      return setCity('');
-    }
 
     setCity(city);
     onCitySelect(city);
-    event.currentTarget.blur();
   }
   function handleSearchButtonClick() {
-    if (city.trim() === '') return;
+    if (city.trim() === '' || (city.trim() === '' && openDropdown)) return setOpenDropdown(false);
 
     setCity(city);
     onCitySelect(city);
@@ -39,6 +46,11 @@ export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }:
   function handlePinnButtonClick(city: PinnedCity) {
     setOpenDropdown(false);
     onAddCityToPinned(city);
+    setCity('');
+  }
+
+  function compareLocation({ lat, lon }: City['coord']) {
+    return myGeolocation.latitude === lat && myGeolocation.longitude === lon;
   }
 
   return (
@@ -48,9 +60,7 @@ export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }:
       </Styled.SearchIconWrapper>
       <Styled.StyledInputBase
         placeholder="Search city..."
-        onChange={({ currentTarget }) => {
-          setCity(currentTarget.value);
-        }}
+        onChange={handleInputChange}
         value={city}
         onKeyUp={onEnterKeyUp}
       />
@@ -90,6 +100,7 @@ export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }:
                           latitude: coord.lat,
                           longitude: coord.lon
                         },
+                        myGeolocation: compareLocation(coord),
                         id
                       })
                     }
