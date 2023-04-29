@@ -32,7 +32,8 @@
       "@services/*": ["./src/services/*"],
       "@enums/*": ["./src/enums/*"],
       "@pages/*": ["./src/pages/*"],
-      "@screens/*": ["./src/screens/*"]
+      "@screens/*": ["./src/screens/*"],
+      "@store/*": ["./src/store/*"]
     }
   },
   "include": ["src"],

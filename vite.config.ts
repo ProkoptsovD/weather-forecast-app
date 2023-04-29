@@ -19,7 +19,8 @@ export default defineConfig({
       '@services': resolve(projectRootDir, './src/services'),
       '@constants': resolve(projectRootDir, './src/constants'),
       '@pages': resolve(projectRootDir, './src/pages'),
-      '@screens': resolve(projectRootDir, './src/screens')
+      '@screens': resolve(projectRootDir, './src/screens'),
+      '@store': resolve(projectRootDir, './src/store')
     }
   }
 });

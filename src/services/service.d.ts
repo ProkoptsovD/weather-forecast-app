@@ -12,3 +12,23 @@ export type TryCatchError = {
 export declare class HttpClientClass {
   public get: <Success, Failure, Error>(url: string) => Response<Success, Failure, Error>;
 }
+
+export type City = {
+  name: string;
+  id: number;
+  sys: {
+    country: string;
+  };
+  main: {
+    temp: number;
+  };
+  weather: Array<{
+    main: string;
+    icon: string;
+    description?: string;
+  }>;
+  coord: {
+    lat: number;
+    lon: number;
+  };
+};
