@@ -7,6 +7,7 @@ export const weatherService = createApi({
   reducerPath: 'weatherService',
   baseQuery: fetchBaseQuery({ baseUrl: WEATHER_API_KEYS.URL }),
   refetchOnMountOrArgChange: true,
+  tagTypes: ['Weather'],
   endpoints: (builder) => ({
     getWeatherByCityCoords: builder.query({
       query: ({ latitude, longitude }: Coordinates) =>
@@ -15,9 +16,9 @@ export const weatherService = createApi({
     findCityByName: builder.query({
       query: (city: string) => `/find?q=${city}&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
     }),
-    findCityByCoordinates: builder.query({
+    getHourlyForecastByCoordinates: builder.query({
       query: ({ latitude, longitude }: Coordinates) =>
-        `/find?lat=${latitude}&lon=${longitude}&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
+        `/forecast?lat=${latitude}&lon=${longitude}&exclude=daily,minutely,alerts&units=metric&APPID=${WEATHER_API_KEYS.APP_ID}`
     }),
     getWeatherInMultipleCities: builder.query({
       queryFn: async (cities: PinnedCity[], _, __, baseQuery) => {

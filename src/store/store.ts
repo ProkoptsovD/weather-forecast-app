@@ -13,17 +13,25 @@ import { weatherService } from '@services/weatherService';
 import { LOCALSTORAGE_KEYS } from '@constants/appKeys';
 
 /** Persist store */
-const persistConfig = {
+const persistPinnedCitiesConfig = {
   key: LOCALSTORAGE_KEYS.CITY_LIST,
   storage
 };
+const persisMyGeolocationConfig = {
+  key: LOCALSTORAGE_KEYS.GEOLOCATION,
+  storage
+};
 
-const persistedPinnedCitiesReducer = persistReducer(persistConfig, pinnedCitiesReducer);
+const persistedPinnedCitiesReducer = persistReducer(persistPinnedCitiesConfig, pinnedCitiesReducer);
+const persistedmyGeolocationReducer = persistReducer(
+  persisMyGeolocationConfig,
+  myGeolocationReducer
+);
 
 export const store = configureStore({
   reducer: {
     [weatherService.reducerPath]: weatherService.reducer,
-    myGeolocation: myGeolocationReducer,
+    myGeolocation: persistedmyGeolocationReducer,
     city: searchCityReducer,
     pinnedCities: persistedPinnedCitiesReducer
   },

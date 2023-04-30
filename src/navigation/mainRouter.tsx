@@ -8,9 +8,9 @@ import { SharedLayout } from '../layouts/SharedLayout';
 import { ROUTER_KEYS } from '../constants/appKeys';
 
 /** PAGES */
-const HomePage = React.lazy(() => import('@pages/home/HomePage'));
+import Page404 from '@pages/Page404';
+const HomePage = React.lazy(() => import('@pages/HomePage'));
 const CityPage = React.lazy(() => import('@pages/SingleCityPage'));
-const Page404 = React.lazy(() => import('@pages/Page404'));
 
 export function MainRouter() {
   const router = createBrowserRouter([
