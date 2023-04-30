@@ -14,7 +14,7 @@ export default function PinnedCities({ list, onItemDelete }: PinnedCitiesProps) 
             <Grid item key={id} component="li" xs={4}>
               <WeatherCardBrief
                 cityId={id}
-                to={ROUTER_KEYS.CITY + `/${id}`}
+                to={ROUTER_KEYS.CITY + `/${id}?lat=${coord.latitude}&lon=${coord.longitude}`}
                 coord={{ lat: coord.latitude, lon: coord.longitude }}
                 fetchDataFn={weatherService.useGetWeatherByCityCoordsQuery}
                 onItemDelete={onItemDelete}

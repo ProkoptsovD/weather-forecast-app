@@ -1,11 +1,9 @@
 /** LIBS */
 import React from 'react';
-import { useSelector } from 'react-redux';
 /** MUI Icons */
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 /** SELECTORS */
-import * as myGeolocationSelectors from '@store/myGeolocationSlice/myGeolocationSelectors';
 /** CONSTANTS */
 import { KEYBOARD_KEYS, WEATHER_API_KEYS } from '@constants/appKeys';
 /** SERVICES */
@@ -17,7 +15,6 @@ import * as Styled from './Search.styled';
 export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }: SearchProps) {
   const [city, setCity] = React.useState<string>('');
   const [openDropdown, setOpenDropdown] = React.useState<boolean>(false);
-  const myGeolocation = useSelector(myGeolocationSelectors.getCurrentLocation);
 
   React.useEffect(() => {
     if (cityList?.length) setOpenDropdown(true);
@@ -47,10 +44,6 @@ export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }:
     setOpenDropdown(false);
     onAddCityToPinned(city);
     setCity('');
-  }
-
-  function compareLocation({ lat, lon }: City['coord']) {
-    return myGeolocation.latitude === lat && myGeolocation.longitude === lon;
   }
 
   return (
@@ -100,7 +93,6 @@ export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }:
                           latitude: coord.lat,
                           longitude: coord.lon
                         },
-                        myGeolocation: compareLocation(coord),
                         id
                       })
                     }

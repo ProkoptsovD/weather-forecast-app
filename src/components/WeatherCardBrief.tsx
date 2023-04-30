@@ -7,8 +7,10 @@ import Skeleton from '@mui/material/Skeleton';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import StarIcon from '@mui/icons-material/Star';
+import { useSelector } from 'react-redux';
 
 import type { City } from '@services/service';
+import * as myGeolocationSelectors from '@store/myGeolocationSlice/myGeolocationSelectors';
 import { weatherService } from '@services/weatherService';
 import { Stack } from '@mui/material';
 import { WEATHER_API_KEYS } from '@constants/appKeys';
@@ -21,8 +23,14 @@ export function WeatherCardBrief({
   onItemDelete
 }: WeatherCardBriefProps) {
   const { data, isLoading, refetch } = fetchDataFn({ latitude: coord.lat, longitude: coord.lon });
+  const { latitude, longitude } = useSelector(myGeolocationSelectors.getCurrentLocation);
   const [weather] = data?.weather ?? [];
+
+  /** capitalize first letter */
   const descr = weather?.description[0]?.toUpperCase() + weather?.description?.slice(1);
+  const isMyLocationCity =
+    Math.ceil(latitude as number) === Math.ceil(coord.lat as number) &&
+    Math.ceil(longitude as number) === Math.ceil(coord.lon as number);
 
   function handleItemDelete() {
     onItemDelete(cityId);
@@ -30,7 +38,10 @@ export function WeatherCardBrief({
 
   return !isLoading && data ? (
     <Card sx={{ minWidth: 275, position: 'relative' }}>
-      <StarIcon sx={{ position: 'absolute', right: '1rem', top: '0.5rem', color: 'gold' }} />
+      {isMyLocationCity ? (
+        <StarIcon sx={{ position: 'absolute', right: '1rem', top: '0.5rem', color: 'gold' }} />
+      ) : null}
+
       <CardContent>
         <Typography
           variant="h2"

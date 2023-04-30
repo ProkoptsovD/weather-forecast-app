@@ -22,6 +22,8 @@ export type City = {
   main: {
     temp: number;
     feels_like: number;
+    pressure: number;
+    humidity: number;
   };
   weather: Array<{
     main: string;
@@ -32,4 +34,10 @@ export type City = {
     lat: number;
     lon: number;
   };
+  dt: Date | number;
+  wind: {
+    speed: number;
+    deg: number;
+  };
+  visibility?: number;
 };

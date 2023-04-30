@@ -6,7 +6,6 @@ import type { Coordinates } from '@store/myGeolocationSlice';
 export type PinnedCity = {
   id: number;
   coord: Coordinates;
-  myGeolocation: boolean;
 };
 
 export interface PinnedCitiesState {

@@ -4,6 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import HomeIcon from '@mui/icons-material/Home';
 import { useDispatch, useSelector } from 'react-redux';
 
 /** COMPONENTS */
@@ -21,6 +22,8 @@ import * as searchCitySelectors from '@store/searchCitySlice/searchCitySelectors
 
 /** Services */
 import { weatherService } from '@services/weatherService';
+import { Button } from '@mui/material';
+import { ROUTER_KEYS } from '@constants/appKeys';
 
 function Header() {
   const dispatch = useDispatch();
@@ -40,8 +43,7 @@ function Header() {
         coord: {
           latitude: myCity.data.coord.lat,
           longitude: myCity.data.coord.lon
-        },
-        myGeolocation: true
+        }
       };
       dispatch(pinnedCitiesSlice.actions.addCityToPinned({ pinnedCity }));
     }
@@ -51,6 +53,18 @@ function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
+          <Button
+            href={ROUTER_KEYS.HOME}
+            sx={{
+              outline: 'none !important',
+              minWidth: '2rem',
+              minHeight: '2rem',
+              aspectRatio: '1/1',
+              marginRight: '0.5rem'
+            }}
+          >
+            <HomeIcon sx={{ color: '#ffffff' }} />
+          </Button>
           <Typography
             variant="h6"
             noWrap
