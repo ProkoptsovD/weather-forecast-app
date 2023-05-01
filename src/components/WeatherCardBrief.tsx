@@ -1,18 +1,22 @@
+/** LIBS */
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
+import { useSelector } from 'react-redux';
+import { Stack } from '@mui/material';
+
+/** ICONS */
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import StarIcon from '@mui/icons-material/Star';
-import { useSelector } from 'react-redux';
 
+/** SERVICES, TYPES, SELECTORS */
 import type { City } from '@services/service';
 import * as myGeolocationSelectors from '@store/myGeolocationSlice/myGeolocationSelectors';
 import { weatherService } from '@services/weatherService';
-import { Stack } from '@mui/material';
 import { WEATHER_API_KEYS } from '@constants/appKeys';
 
 export function WeatherCardBrief({

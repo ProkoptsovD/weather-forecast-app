@@ -1,5 +1,5 @@
 /** LIBS */
-import React from 'react';
+import { ChangeEvent, useEffect, useState, KeyboardEvent } from 'react';
 /** MUI Icons */
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,20 +13,20 @@ import type { PinnedCity } from '@store/pinnedCitiesSlice';
 import * as Styled from './Search.styled';
 
 export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }: SearchProps) {
-  const [city, setCity] = React.useState<string>('');
-  const [openDropdown, setOpenDropdown] = React.useState<boolean>(false);
+  const [city, setCity] = useState<string>('');
+  const [openDropdown, setOpenDropdown] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (cityList?.length) setOpenDropdown(true);
   }, [cityList]);
 
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     setCity(event.currentTarget.value);
 
     if (city === '') setOpenDropdown(false);
   }
 
-  function onEnterKeyUp(event: React.KeyboardEvent<HTMLInputElement>) {
+  function onEnterKeyUp(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key !== KEYBOARD_KEYS.ENTER) return;
     if (city.trim() === '') return;
 

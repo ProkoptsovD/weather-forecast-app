@@ -1,5 +1,5 @@
 /** LIBS */
-import React from 'react';
+import { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -36,7 +36,7 @@ function Header() {
     skip: !myLocation.latitude || !myLocation.longitude
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (myCity.isSuccess && myCity.data) {
       const pinnedCity: PinnedCity = {
         id: myCity.data.id,
