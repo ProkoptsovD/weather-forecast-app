@@ -1,4 +1,5 @@
-import { createHashRouter, RouterProvider } from 'react-router-dom';
+import { lazy } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 /** LAYOUTS  */
 import { SharedLayout } from '../layouts/SharedLayout';
@@ -8,11 +9,11 @@ import { ROUTER_KEYS } from '../constants/appKeys';
 
 /** PAGES */
 import Page404 from '@pages/Page404';
-import HomePage from '@pages/HomePage';
-import SingleCityPage from '@pages/SingleCityPage';
+const HomePage = lazy(() => import('@pages/HomePage'));
+const CityPage = lazy(() => import('@pages/SingleCityPage'));
 
 export function MainRouter() {
-  const router = createHashRouter(
+  const router = createBrowserRouter(
     [
       {
         path: ROUTER_KEYS.HOME,
@@ -24,7 +25,7 @@ export function MainRouter() {
           },
           {
             path: ROUTER_KEYS.CITY,
-            element: <SingleCityPage />
+            element: <CityPage />
           }
         ]
       },
@@ -33,7 +34,7 @@ export function MainRouter() {
         element: <Page404 />
       }
     ],
-    { basename: '/weather-forecast-app' }
+    { basename: '/weather-forecast-app/' }
   );
 
   return <RouterProvider router={router} />;
