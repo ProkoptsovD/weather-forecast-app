@@ -98,8 +98,8 @@ describe('renders app correctly', () => {
     waitFor(() => expect(getByText(/Madrid, ES/)).toBeInTheDocument());
   });
 
-  it('goes to ', () => {
-    const { getByText, getByPlaceholderText } = render(
+  it('updates weather', () => {
+    const { getByText, getByPlaceholderText, getByTestId } = render(
       <Provider store={store}>
         <App />
       </Provider>
@@ -121,6 +121,11 @@ describe('renders app correctly', () => {
     const addToPinnedBtn = screen.getAllByRole('button')[0] as HTMLButtonElement;
     fireEvent.click(addToPinnedBtn);
 
+    waitFor(() => expect(getByText(/Madrid, ES/)).toBeInTheDocument());
+
+    const updateWeatherBtn = getByTestId('update') as HTMLButtonElement;
+
+    fireEvent.click(updateWeatherBtn);
     waitFor(() => expect(getByText(/Madrid, ES/)).toBeInTheDocument());
   });
 });
