@@ -82,6 +82,8 @@ export function Search({ onCitySelect, cityList, isLoading, onAddCityToPinned }:
                     alt={`${weather[0].main} icon`}
                   />
                   <Styled.StyledButton
+                    role="button"
+                    aria-label="add to pinned"
                     sx={{
                       minWidth: '1rem',
                       backgroundColor: 'rgba(255 255 255 / 0.75)',

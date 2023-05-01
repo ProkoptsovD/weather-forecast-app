@@ -1,15 +1,16 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
+import reactRefresh from '@vitejs/plugin-react-refresh';
 
 const projectRootDir = resolve(__dirname);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), reactRefresh()],
   resolve: {
     alias: {
-      '@app': resolve(projectRootDir, 'src'),
+      '@app': resolve(projectRootDir, './src'),
       '@navigation': resolve(projectRootDir, './src/navigation'),
       '@components': resolve(projectRootDir, './src/components'),
       '@assets': resolve(projectRootDir, './src/assets'),
@@ -22,5 +23,8 @@ export default defineConfig({
       '@screens': resolve(projectRootDir, './src/screens'),
       '@store': resolve(projectRootDir, './src/store')
     }
+  },
+  esbuild: {
+    jsxInject: `import React from 'react'`
   }
 });

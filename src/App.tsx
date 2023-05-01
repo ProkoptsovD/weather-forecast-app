@@ -1,10 +1,10 @@
 import MainRouter from './navigation/mainRouter';
 import './App.css';
 import { useEffect } from 'react';
-import { weatherService } from '@services/weatherService';
-import { useSelector } from 'react-redux';
-import { getMyLocation } from '@store/myGeolocationSlice/myGeolocationSelectors';
-import { getCity } from '@store/searchCitySlice/searchCitySelectors';
+// import { weatherService } from '@services/weatherService';
+// import { useSelector } from 'react-redux';
+// import { getMyLocation } from '@store/myGeolocationSlice/myGeolocationSelectors';
+// import { getCity } from '@store/searchCitySlice/searchCitySelectors';
 // import { weatherService } from '@services/weatherService';
 // import { geoDecodingService } from '@services/geoDecodingService';
 
