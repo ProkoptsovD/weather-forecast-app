@@ -1,5 +1,4 @@
-import { lazy } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 
 /** LAYOUTS  */
 import { SharedLayout } from '../layouts/SharedLayout';
@@ -9,11 +8,11 @@ import { ROUTER_KEYS } from '../constants/appKeys';
 
 /** PAGES */
 import Page404 from '@pages/Page404';
-const HomePage = lazy(() => import('@pages/HomePage'));
-const CityPage = lazy(() => import('@pages/SingleCityPage'));
+import HomePage from '@pages/HomePage';
+import SingleCityPage from '@pages/SingleCityPage';
 
 export function MainRouter() {
-  const router = createBrowserRouter(
+  const router = createHashRouter(
     [
       {
         path: ROUTER_KEYS.HOME,
@@ -24,8 +23,8 @@ export function MainRouter() {
             element: <HomePage />
           },
           {
-            path: ROUTER_KEYS.CITY + '/:id',
-            element: <CityPage />
+            path: ROUTER_KEYS.CITY,
+            element: <SingleCityPage />
           }
         ]
       },
