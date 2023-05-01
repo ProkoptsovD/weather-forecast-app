@@ -54,6 +54,7 @@ function Header() {
       <AppBar position="static">
         <Toolbar>
           <Button
+            title="home link"
             href={ROUTER_KEYS.HOME}
             sx={{
               outline: 'none !important',
