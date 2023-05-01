@@ -33,6 +33,7 @@ export function MyLocation({
 
   return (
     <Button
+      title="geo"
       type="button"
       aria-label="get my curent location"
       sx={{
