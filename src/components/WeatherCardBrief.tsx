@@ -84,7 +84,7 @@ export function WeatherCardBrief({
           size="small"
           color="success"
           sx={{ textTransform: 'capitalize', outline: 'none !important' }}
-          data-testid="update"
+          id="update"
         >
           Update
           <AutorenewIcon sx={{ width: '1rem', marginLeft: '0.5rem' }} />

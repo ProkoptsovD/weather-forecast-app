@@ -99,7 +99,7 @@ describe('renders app correctly', () => {
   });
 
   it('updates weather', () => {
-    const { getByText, getByPlaceholderText, getByTestId } = render(
+    const { getByText, getByPlaceholderText } = render(
       <Provider store={store}>
         <App />
       </Provider>
@@ -123,9 +123,9 @@ describe('renders app correctly', () => {
 
     waitFor(() => expect(getByText(/Madrid, ES/)).toBeInTheDocument());
 
-    const updateWeatherBtn = getByTestId('update') as HTMLButtonElement;
+    const updateWeatherBtn = screen.queryByText('Update') as HTMLButtonElement;
 
-    fireEvent.click(updateWeatherBtn);
+    updateWeatherBtn.click();
     waitFor(() => expect(getByText(/Madrid, ES/)).toBeInTheDocument());
   });
 });
